@@ -2,7 +2,18 @@
 
 ## Environment  Installation
 
-Our codes are based on [GUARD](https://github.com/intelligent-control-lab/guard), please follow the installation guidelines of it to build the initial environment for GUARD-based continuous tasks. 
+Install environment:
+```
+conda create --name venv python=3.8
+conda activate venv
+pip install -r requirements.txt
+```
+
+Then, install `safe_rl_envs` by:
+```
+cd safe_rl_envs
+pip install -e .
+```
 
 If you want to run Atari tasks, two additional commands are needed:
 
