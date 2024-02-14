@@ -1,68 +1,79 @@
 # Absolute Policy Optimization
 
-## Environment Installation
+## Environment  Installation
 
-Install [mujoco_py](https://github.com/openai/mujoco-py), see the mujoco_py documentation for details. Note that mujoco_py **requires Python 3.6 or greater**.
-
-Afterwards, simply install `rl_envs` by:
-
-```
-cd rl_envs
-pip install -e .
-```
-
-Install environment:
-
-```
-conda create --name [your env name] --file requirements.txt
-```
+Our codes are based on [GUARD](https://github.com/intelligent-control-lab/guard), please follow the installation guidelines of it to build the initial environment for GUARD-based continuous tasks. 
 
 If you want to run Atari tasks, two additional commands are needed:
 
 ```
-pip install "gymnasium[atari]
-pip install "gymnasium[accept-rom-license]
+pip install "gymnasium[atari]"
+pip install "gymnasium[accept-rom-license]"
 ```
+
+If you want to run [Mujoco](https://gymnasium.farama.org/environments/mujoco/) tasks, please run:
+
+```
+pip install gymnasium[mujoco]
+```
+
+if you want to run robotics [Gymnasium-Robotics](https://robotics.farama.org/index.html) tasks, please run:
+
+```
+pip install gymnasium-robotics
+```
+
+After building the environment, please put any algorithms that you want to run into the folder `safe_rl_lib` in GUARD repository.
 
 ---
 
-## Policy Training
+## Parameters  Tuning
 
-Take APO training for example:
+Two critical hyperparameters need to be chosen wisely which are `omega1` and `omega2`. `omega1` refers to $\mu$ and `omega2` refers to the $H_{max}$. For further explanation, please check our original paper.
 
-- Continuous tasks:
+We tune these two parameters by grid search in domain $[0.001, 0.003, 0.005, 0.007, 0.01]\times[0.001, 0.003, 0.005, 0.007, 0.01]$.
+
+---
+
+## Policy  Training
+
+Take APO and PAPO training for example:
+
+- GUARD Continuous tasks:
 
   ```
-  cd rl_lib/apo
+  cd apo
   conda activate [your env name]
-  python apo.py --task Push_Ant --seed 9 
+  python apo.py --task Push_Ant --seed [seed]
   ```
 
   For other command line parameters, please refer to the code.
 
-- Discrete tasks:
+- Atari tasks:
 
   ```
-  cd rl_lib/apo
+  cd apo
   conda activate [your env name]
-  python apo.py --atari_name Riverraid --seed 9
+  python apo.py --atari_name Riverraid --seed [seed]
   ```
 
   For other command line parameters, please refer to the code.
 
-## APO Policy Video Production
+- Mujoco tasks
 
-After training finished:
+  ```
+  cd apo
+  conda activate [your env name]
+  python apo.py --mujoco_name HumanoidStandup --seed [seed]
+  ```
 
-```
-python apo_video.py --model_path logs/<scpo log>/<scpo log specific seed>/pyt_save/model.pt --task <experiment name> --video_name <video name> --max_epoch <max epoch>           
-```
+- Gymnasium-Robotics tasks:
 
-## Plot the Training Curve 
+  ```
+  cd papo
+  conda activate [your env name]
+  python papo.py --mujoco_name HandReachDense --seed [seed]
+  ```
 
-```
-cd rl_lib
-mkdir comparison
-(copy the log you want to visualize into the comparison/ folder)
-python utils/plot.py comparison/ --title test --reward --value MinEpRet 
-```
+  
+
