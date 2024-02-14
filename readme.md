@@ -9,9 +9,9 @@ conda activate venv
 pip install -r requirements.txt
 ```
 
-Then, install `safe_rl_envs` by:
+Then, install `rl_envs` by:
 ```
-cd safe_rl_envs
+cd rl_envs
 pip install -e .
 ```
 
